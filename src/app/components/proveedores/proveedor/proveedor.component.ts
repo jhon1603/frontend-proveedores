@@ -117,9 +117,15 @@ export class ProveedorComponent implements OnInit {
   }
 
   eliminar(id: number): void {
-    this.proveedorService.eliminarProveedor(id).subscribe(() => {
-      this.mensajeExito = 'Proveedor eliminado con éxito.';
-      this.obtenerProveedores();
+    this.proveedorService.eliminarProveedor(id).subscribe({
+      next: () => {
+        this.paginaActual = 0;
+        this.proveedores = [];
+        this.obtenerProveedores();
+      },
+      error: err => {
+        console.error('Error al eliminar proveedor', err);
+      }
     });
   }
 

@@ -1,0 +1,75 @@
+<h2 align="center">Listado de Proveedores</h2>
+
+<div *ngIf="mensajeExito" class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ mensajeExito }}
+    <button type="button" class="btn-close" (click)="mensajeExito = ''" aria-label="Close"></button>
+</div>
+  
+<div *ngIf="errorMensaje" class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ errorMensaje }}
+    <button type="button" class="btn-close" (click)="errorMensaje = ''" aria-label="Close"></button>
+</div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="modalProveedor" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <form (ngSubmit)="agregarProveedor()" #proveedorForm="ngForm" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">Nuevo Proveedor</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label>Nombre</label>
+            <input name="nombre" [(ngModel)]="nuevoProveedor.nombre" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label>RFC</label>
+            <input name="rfc" [(ngModel)]="nuevoProveedor.rfc" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label>Dirección</label>
+            <input name="direccion" [(ngModel)]="nuevoProveedor.direccion" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button class="btn btn-success" type="submit" [disabled]="proveedorForm.invalid">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<button class="btn btn-success btn-sm me-2" data-bs-toggle="modal" data-bs-target="#modalProveedor">Insertar nuevo</button>
+
+<!-- Se esta utilizando el patrón Vistual Scroll ( Directiva estructural )-->
+<cdk-virtual-scroll-viewport itemSize="60" class="scroll-viewport" (scrolledIndexChange)="onScroll()">
+    <div class="container">
+      <div class="row fw-bold border-bottom bg-dark text-white p-2">
+        <div class="col-1 text-center">Id</div>
+        <div class="col-2">Nombre</div>
+        <div class="col-2">RFC</div>
+        <div class="col-3">Dirección</div>
+        <div class="col-2 text-center">Estatus</div>
+        <div class="col-2 text-end">&nbsp;</div>
+      </div>
+  
+      <div *cdkVirtualFor="let proveedor of proveedores" class="row border-bottom p-2 align-items-center">
+        <div class="col-1 text-center">{{ proveedor.id }}</div>
+        <div class="col-2">{{ proveedor.nombre }}</div>
+        <div class="col-2">{{ proveedor.rfc }}</div>
+        <div class="col-3">{{ proveedor.direccion }}</div>
+        <div class="col-2 text-center">{{ proveedor.activo }}</div>
+        <div class="col-2 text-end">
+          <button (click)="eliminar(proveedor.id)" class="btn btn-danger btn-sm">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </cdk-virtual-scroll-viewport>
+
+
+
+
+
+
+  
